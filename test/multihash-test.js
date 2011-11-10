@@ -6,7 +6,7 @@ var MultiHash = require('multihash');
 
 vows.describe('MultiHash').addBatch({
 
-  'multihash that is empty': {
+  'multihash with no elements': {
     topic: function() {
       return new MultiHash();
     },
@@ -17,7 +17,7 @@ vows.describe('MultiHash').addBatch({
     'should not have key' : function(hash) {
       assert.isFalse(hash.has('something'));
     },
-    'should have zero count for key' : function(hash) {
+    'should report count of zero values for key' : function(hash) {
       assert.equal(hash.count('something'), 0);
     },
     'should not yield any key-value pairs when iterating' : function(hash) {
@@ -30,7 +30,7 @@ vows.describe('MultiHash').addBatch({
     },
   },
   
-  'multihash with single-value elements': {
+  'multihash with two single-value elements': {
     topic: function() {
       var hash = new MultiHash();
       hash.put('hello', 'world');
@@ -45,7 +45,7 @@ vows.describe('MultiHash').addBatch({
       assert.isTrue(hash.has('hello'));
       assert.isTrue(hash.has('foo'));
     },
-    'should have one count for keys' : function(hash) {
+    'should report count of one value for each key' : function(hash) {
       assert.equal(hash.count('hello'), 1);
       assert.equal(hash.count('foo'), 1);
     },
@@ -63,7 +63,7 @@ vows.describe('MultiHash').addBatch({
     },
   },
   
-  'multihash with multi-value element': {
+  'multihash with one multi-value element': {
     topic: function() {
       var hash = new MultiHash();
       hash.put('foo', 'bar');
@@ -77,7 +77,7 @@ vows.describe('MultiHash').addBatch({
     'should have key' : function(hash) {
       assert.isTrue(hash.has('foo'));
     },
-    'should have two count for key' : function(hash) {
+    'should report count of two values for key' : function(hash) {
       assert.equal(hash.count('foo'), 2);
     },
     'should yield key-value pairs when iterating' : function(hash) {

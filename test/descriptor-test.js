@@ -12,6 +12,9 @@ vows.describe('Descriptor').addBatch({
       return new Descriptor();
     },
     
+    'should not have expires' : function(descriptor) {
+      assert.isUndefined(descriptor.expires);
+    },
     'should not have a subject' : function(descriptor) {
       assert.isUndefined(descriptor.subject);
     },
@@ -25,6 +28,10 @@ vows.describe('Descriptor').addBatch({
       assert.length(descriptor.links, 0);
     },
     
+    'should set expires' : function(descriptor) {
+      descriptor.setExpires(new Date("Wed, 09 Aug 1995 00:00:00 GMT"));
+      assert.instanceOf(descriptor.expires, Date);
+    },
     'should set subject' : function(descriptor) {
       descriptor.setSubject('http://example.com/gpburdell');
       assert.equal(descriptor.subject, 'http://example.com/gpburdell');

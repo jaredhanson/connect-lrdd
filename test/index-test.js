@@ -9,6 +9,9 @@ vows.describe('connect-lrdd').addBatch({
     'should export lrdd middleware': function () {
       assert.isFunction(lrdd.lrdd);
     },
+    'should alias lrdd middleware to descriptor': function () {
+      assert.isFunction(lrdd.descriptor);
+    },
     'should export Descriptor constructor': function () {
       assert.isFunction(lrdd.Descriptor);
     },

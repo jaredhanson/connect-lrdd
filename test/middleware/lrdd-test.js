@@ -162,5 +162,203 @@ vows.describe('lrdd').addBatch({
       },
     },
   },
+  
+  'middleware with a sync function that accepts a uri argument as params': {
+    topic: function() {
+      return lrdd(function(uri) {
+        return new Descriptor(uri);
+      });
+    },
+    
+    'when handling a request': {
+      topic: function(lrdd) {
+        var self = this;
+        
+        var req = new MockRequest();
+        req.params = {};
+        req.params['uri'] = 'http://blog.example.com/article/id/314';
+        
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          lrdd(req, res, next)
+        });
+      },
+      
+      'should not call next' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should set Content-Type header' : function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xrd+xml');
+      },
+      'should format XRD data correctly' : function(err, req, res) {
+        assert.equal(res._data, '<?xml version="1.0" encoding="UTF-8"?><XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Subject>http://blog.example.com/article/id/314</Subject></XRD>');
+      },
+    },
+  },
+  
+  'middleware with a sync function that accepts a uri argument as query': {
+    topic: function() {
+      return lrdd(function(uri) {
+        return new Descriptor(uri);
+      });
+    },
+    
+    'when handling a request': {
+      topic: function(lrdd) {
+        var self = this;
+        
+        var req = new MockRequest();
+        req.query = {};
+        req.query['uri'] = 'http://blog.example.com/article/id/314';
+        
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          lrdd(req, res, next)
+        });
+      },
+      
+      'should not call next' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should set Content-Type header' : function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xrd+xml');
+      },
+      'should format XRD data correctly' : function(err, req, res) {
+        assert.equal(res._data, '<?xml version="1.0" encoding="UTF-8"?><XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Subject>http://blog.example.com/article/id/314</Subject></XRD>');
+      },
+    },
+  },
+  
+  'middleware with a sync function that accepts a uri argument as query with param option': {
+    topic: function() {
+      return lrdd(function(uri) {
+        return new Descriptor(uri);
+      }, { param: 'u' });
+    },
+    
+    'when handling a request': {
+      topic: function(lrdd) {
+        var self = this;
+        
+        var req = new MockRequest();
+        req.query = {};
+        req.query['u'] = 'http://blog.example.com/article/id/314';
+        
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          lrdd(req, res, next)
+        });
+      },
+      
+      'should not call next' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should set Content-Type header' : function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xrd+xml');
+      },
+      'should format XRD data correctly' : function(err, req, res) {
+        assert.equal(res._data, '<?xml version="1.0" encoding="UTF-8"?><XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Subject>http://blog.example.com/article/id/314</Subject></XRD>');
+      },
+    },
+  },
+  
+  'middleware with an async function': {
+    topic: function() {
+      return lrdd(function(uri, done) {
+        var desc = new Descriptor(uri);
+        return done(null, desc);
+      });
+    },
+    
+    'when handling a request': {
+      topic: function(lrdd) {
+        var self = this;
+        
+        var req = new MockRequest();
+        req.query = {};
+        req.query['uri'] = 'http://blog.example.com/article/id/314';
+        
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          lrdd(req, res, next)
+        });
+      },
+      
+      'should not call next' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should set Content-Type header' : function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xrd+xml');
+      },
+      'should format XRD data correctly' : function(err, req, res) {
+        assert.equal(res._data, '<?xml version="1.0" encoding="UTF-8"?><XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Subject>http://blog.example.com/article/id/314</Subject></XRD>');
+      },
+    },
+  },
+  
+  'middleware with an async function that encounters an error': {
+    topic: function() {
+      return lrdd(function(uri, done) {
+        return done(new Error('something went wrong'));
+      });
+    },
+    
+    'when handling a request': {
+      topic: function(lrdd) {
+        var self = this;
+        
+        var req = new MockRequest();
+        req.query = {};
+        req.query['uri'] = 'http://blog.example.com/article/id/314';
+        
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(new Error('should not be called'));
+        }
+        
+        function next(err) {
+          self.callback(null, err);
+        }
+        process.nextTick(function () {
+          lrdd(req, res, next)
+        });
+      },
+      
+      'should not send response' : function(err, e) {
+        assert.isNull(err);
+      },
+      'should call next with an error' : function(err, e) {
+        assert.instanceOf(e, Error);
+      },
+    },
+  },
 
 }).export(module);

@@ -96,5 +96,71 @@ vows.describe('lrdd').addBatch({
       },
     },
   },
+  
+  'middleware with a function that returns a descriptor and serializes as JSON format': {
+    topic: function() {
+      return lrdd(function() {
+        var desc = new Descriptor();
+        desc.setExpires(new Date("Wed, 09 Aug 1995 00:00:00 GMT"));
+        desc.setSubject('http://example.com/gpburdell');
+        desc.addAlias('http://people.example.com/gpburdell');
+        desc.addAlias('acct:gpburdell@example.com');
+        desc.addProperty('http://spec.example.net/type/person');
+        desc.addProperty('http://spec.example.net/version', '1.0');
+        desc.addProperty('http://spec.example.net/version', '2.0');
+        desc.addLink('http://services.example.com/auth', 'http://spec.example.net/auth/1.0');
+        desc.addLink({ template: 'https://example.com/lrdd/?uri={uri}', rel: 'lrdd', type: 'application/xrd+xml' });
+        var link = new Link('http://photos.example.com/gpburdell.jpg', 'http://spec.example.net/photo/1.0', 'image/jpeg');
+        link.addTitle('User Photo');
+        link.addTitle('Benutzerfoto', 'de');
+        link.addProperty('http://spec.example.net/created/1.0', '1970-01-01');
+        link.addProperty('http://spec.example.net/type/place');
+        desc.addLink(link);
+        
+        return desc;
+      }, { format: 'json' });
+    },
+    
+    'when handling a request': {
+      topic: function(lrdd) {
+        var self = this;
+        
+        var req = new MockRequest();
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          lrdd(req, res, next)
+        });
+      },
+      
+      'should not call next' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should set Content-Type header' : function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
+      },
+      'should format JRD data correctly' : function(err, req, res) {
+        assert.equal(res._data, '{"expires":"1995-08-09T00:00:00Z",\
+"subject":"http://example.com/gpburdell",\
+"aliases":["http://people.example.com/gpburdell",\
+"acct:gpburdell@example.com"],\
+"properties":{"http://spec.example.net/type/person":null,\
+"http://spec.example.net/version":"2.0"},\
+"links":[\
+{"rel":"http://spec.example.net/auth/1.0","href":"http://services.example.com/auth"},\
+{"rel":"lrdd","template":"https://example.com/lrdd/?uri={uri}","type":"application/xrd+xml"},\
+{"rel":"http://spec.example.net/photo/1.0","href":"http://photos.example.com/gpburdell.jpg","type":"image/jpeg",\
+"titles":{"default":"User Photo","de":"Benutzerfoto"},\
+"properties":{"http://spec.example.net/created/1.0":"1970-01-01","http://spec.example.net/type/place":null}}\
+]}');
+      },
+    },
+  },
 
 }).export(module);

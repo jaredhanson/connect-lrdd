@@ -360,5 +360,91 @@ vows.describe('lrdd').addBatch({
       },
     },
   },
+  
+  'middleware with a request that accepts JSON responses': {
+    topic: function() {
+      return lrdd(function(uri, done) {
+        var desc = new Descriptor(uri);
+        return done(null, desc);
+      });
+    },
+    
+    'when handling a request': {
+      topic: function(lrdd) {
+        var self = this;
+        
+        var req = new MockRequest();
+        req.headers = {};
+        req.headers['content-type'] = 'application/json'
+        req.query = {};
+        req.query['uri'] = 'http://blog.example.com/article/id/314';
+        
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          lrdd(req, res, next)
+        });
+      },
+      
+      'should not call next' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should set Content-Type header' : function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
+      },
+      'should format JRD data correctly' : function(err, req, res) {
+        assert.equal(res._data, '{"subject":"http://blog.example.com/article/id/314"}');
+      },
+    },
+  },
+  
+  'middleware with a request that accepts XRD responses': {
+    topic: function() {
+      return lrdd(function(uri, done) {
+        var desc = new Descriptor(uri);
+        return done(null, desc);
+      }, { format: 'json' });
+    },
+    
+    'when handling a request': {
+      topic: function(lrdd) {
+        var self = this;
+        
+        var req = new MockRequest();
+        req.headers = {};
+        req.headers['content-type'] = 'application/xrd+xml'
+        req.query = {};
+        req.query['uri'] = 'http://blog.example.com/article/id/314';
+        
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          lrdd(req, res, next)
+        });
+      },
+      
+      'should not call next' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should set Content-Type header' : function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xrd+xml');
+      },
+      'should format JRD data correctly' : function(err, req, res) {
+        assert.equal(res._data, '<?xml version="1.0" encoding="UTF-8"?><XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Subject>http://blog.example.com/article/id/314</Subject></XRD>');
+      },
+    },
+  },
 
 }).export(module);

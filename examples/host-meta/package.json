@@ -1,0 +1,8 @@
+{
+  "name": "connect-lrdd-examples-host-meta",
+  "version": "0.0.0",
+  "dependencies": {
+    "express": ">= 0.0.0",
+    "connect-lrdd": ">= 0.0.0"
+  }
+}

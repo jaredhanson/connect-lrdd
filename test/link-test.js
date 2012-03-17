@@ -16,8 +16,8 @@ vows.describe('Link').addBatch({
       assert.isUndefined(link.template);
       assert.isUndefined(link.rel);
       assert.isUndefined(link.type);
-      assert.length(link.titles, 0);
-      assert.length(link.properties, 0);
+      assert.lengthOf(link.titles, 0);
+      assert.lengthOf(link.properties, 0);
     },
   },
   
@@ -31,8 +31,8 @@ vows.describe('Link').addBatch({
       assert.isUndefined(link.template);
       assert.equal(link.rel, 'http://spec.example.net/auth/1.0');
       assert.isUndefined(link.type);
-      assert.length(link.titles, 0);
-      assert.length(link.properties, 0);
+      assert.lengthOf(link.titles, 0);
+      assert.lengthOf(link.properties, 0);
     },
   },
   
@@ -46,8 +46,8 @@ vows.describe('Link').addBatch({
       assert.isUndefined(link.template);
       assert.equal(link.rel, 'http://spec.example.net/photo/1.0');
       assert.equal(link.type, 'image/jpeg');
-      assert.length(link.titles, 0);
-      assert.length(link.properties, 0);
+      assert.lengthOf(link.titles, 0);
+      assert.lengthOf(link.properties, 0);
     },
   },
   
@@ -61,8 +61,8 @@ vows.describe('Link').addBatch({
       assert.equal(link.template, 'https://example.com/lrdd/?uri={uri}');
       assert.equal(link.rel, 'lrdd');
       assert.equal(link.type, 'application/xrd+xml');
-      assert.length(link.titles, 0);
-      assert.length(link.properties, 0);
+      assert.lengthOf(link.titles, 0);
+      assert.lengthOf(link.properties, 0);
     },
   },
   
@@ -75,7 +75,7 @@ vows.describe('Link').addBatch({
     },
     
     'should have correct titles' : function(link) {
-      assert.length(link.titles, 2);
+      assert.lengthOf(link.titles, 2);
       assert.equal(link.titles.count('_'), 1);
       assert.equal(link.titles.count('de'), 1);
     },
@@ -89,7 +89,7 @@ vows.describe('Link').addBatch({
     },
     
     'should have correct properties' : function(link) {
-      assert.length(link.properties, 1);
+      assert.lengthOf(link.properties, 1);
     },
   },
 

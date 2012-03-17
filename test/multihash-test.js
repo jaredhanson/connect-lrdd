@@ -12,7 +12,7 @@ vows.describe('MultiHash').addBatch({
     },
     
     'should report length of zero' : function(hash) {
-      assert.length(hash, 0);
+      assert.lengthOf(hash, 0);
     },
     'should not have key' : function(hash) {
       assert.isFalse(hash.has('something'));
@@ -26,7 +26,7 @@ vows.describe('MultiHash').addBatch({
         obj.push({ key: key, value: value });
       });
       
-      assert.length(obj, 0);
+      assert.lengthOf(obj, 0);
     },
   },
   
@@ -39,7 +39,7 @@ vows.describe('MultiHash').addBatch({
     },
     
     'should report length of two' : function(hash) {
-      assert.length(hash, 2);
+      assert.lengthOf(hash, 2);
     },
     'should have keys' : function(hash) {
       assert.isTrue(hash.has('hello'));
@@ -55,7 +55,7 @@ vows.describe('MultiHash').addBatch({
         obj.push({ key: key, value: value });
       });
       
-      assert.length(obj, 2);
+      assert.lengthOf(obj, 2);
       assert.equal(obj[0].key, 'hello');
       assert.equal(obj[0].value, 'world');
       assert.equal(obj[1].key, 'foo');
@@ -72,7 +72,7 @@ vows.describe('MultiHash').addBatch({
     },
     
     'should report length of one' : function(hash) {
-      assert.length(hash, 1);
+      assert.lengthOf(hash, 1);
     },
     'should have key' : function(hash) {
       assert.isTrue(hash.has('foo'));
@@ -86,7 +86,7 @@ vows.describe('MultiHash').addBatch({
         obj.push({ key: key, value: value });
       });
       
-      assert.length(obj, 2);
+      assert.lengthOf(obj, 2);
       assert.equal(obj[0].key, 'foo');
       assert.equal(obj[0].value, 'bar');
       assert.equal(obj[1].key, 'foo');
@@ -98,7 +98,7 @@ vows.describe('MultiHash').addBatch({
         obj.push({ key: key, value: value });
       }, { flatten: true });
       
-      assert.length(obj, 1);
+      assert.lengthOf(obj, 1);
       assert.equal(obj[0].key, 'foo');
       assert.equal(obj[0].value, 'baz');
     },

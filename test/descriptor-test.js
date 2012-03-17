@@ -19,13 +19,13 @@ vows.describe('Descriptor').addBatch({
       assert.isUndefined(descriptor.subject);
     },
     'should not have aliases' : function(descriptor) {
-      assert.length(descriptor.aliases, 0);
+      assert.lengthOf(descriptor.aliases, 0);
     },
     'should not have properties' : function(descriptor) {
-      assert.length(descriptor.properties, 0);
+      assert.lengthOf(descriptor.properties, 0);
     },
     'should not have links' : function(descriptor) {
-      assert.length(descriptor.links, 0);
+      assert.lengthOf(descriptor.links, 0);
     },
     
     'should set expires' : function(descriptor) {
@@ -38,28 +38,28 @@ vows.describe('Descriptor').addBatch({
     },
     'should add alias' : function(descriptor) {
       descriptor.addAlias('http://people.example.com/gpburdell');
-      assert.length(descriptor.aliases, 1);
+      assert.lengthOf(descriptor.aliases, 1);
       assert.equal(descriptor.aliases[0], 'http://people.example.com/gpburdell');
     },
     'should add property' : function(descriptor) {
       descriptor.addProperty('http://spec.example.net/version', '1.0');
-      assert.length(descriptor.properties, 1);
+      assert.lengthOf(descriptor.properties, 1);
       assert.isTrue(descriptor.properties.has('http://spec.example.net/version'));
     },
     'should add link with href, rel, type' : function(descriptor) {
       descriptor.addLink('http://photos.example.com/gpburdell.jpg', 'http://spec.example.net/photo/1.0', 'image/jpeg');
-      assert.length(descriptor.links, 1);
+      assert.lengthOf(descriptor.links, 1);
       assert.equal(descriptor.links[0].href, 'http://photos.example.com/gpburdell.jpg');
     },
     'should add link with options' : function(descriptor) {
       descriptor.addLink({ template: 'https://example.com/lrdd/?uri={uri}', rel: 'lrdd', type: 'application/xrd+xml' });
-      assert.length(descriptor.links, 2);
+      assert.lengthOf(descriptor.links, 2);
       assert.equal(descriptor.links[1].template, 'https://example.com/lrdd/?uri={uri}');
     },
     'should add link as link' : function(descriptor) {
       var link = new Link('http://services.example.com/auth')
       descriptor.addLink(link);
-      assert.length(descriptor.links, 3);
+      assert.lengthOf(descriptor.links, 3);
       assert.equal(descriptor.links[2].href, 'http://services.example.com/auth');
     },
   },

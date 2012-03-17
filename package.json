@@ -2,16 +2,22 @@
   "name": "connect-lrdd",
   "version": "0.1.0",
   "description": "Link-based Resource Descriptor Document (LRDD) middleware for Connect.",
-  "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
+  "author": { "name": "Jared Hanson", "email": "jaredhanson@gmail.com", "url": "http://www.jaredhanson.net/" },
   "repository": {
     "type": "git",
-    "url": "http://github.com/jaredhanson/connect-lrdd.git"
+    "url": "git://github.com/jaredhanson/connect-lrdd.git"
+  },
+  "bugs": {
+    "url": "http://github.com/jaredhanson/connect-lrdd/issues"
   },
   "main": "./lib",
   "dependencies": {
   },
   "devDependencies": {
     "vows": "0.6.x"
+  },
+  "scripts": {
+    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js test/**/*-test.js"
   },
   "engines": { "node": ">= 0.4.0" },
   "keywords": ["connect", "express", "lrdd", "host-meta", "webfinger"]

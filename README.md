@@ -32,9 +32,16 @@ as arguments.  `uri` identifies a resource available at the host.  `done` is a
 callback which should be called with descriptor for the resource.  If an
 exception occurred, `err` should be set.
 
-#### Examples
+## Examples
 
 For a complete, working example, refer to the [host-meta example](https://github.com/jaredhanson/connect-lrdd/tree/master/examples/host-meta).
+
+## Tests
+
+    $ npm install --dev
+    $ make test
+
+[![Build Status](https://secure.travis-ci.org/jaredhanson/connect-lrdd.png)](http://travis-ci.org/jaredhanson/connect-lrdd)
 
 ## Credits
 

@@ -6,6 +6,7 @@
     "connect",
     "express",
     "lrdd",
+    "hostmeta",
     "host-meta",
     "webfinger"
   ],
@@ -31,6 +32,8 @@
   "dependencies": {
   },
   "devDependencies": {
+    "mocha": "1.x.x",
+    "chai": "1.x.x",
     "vows": "0.6.x"
   },
   "engines": {

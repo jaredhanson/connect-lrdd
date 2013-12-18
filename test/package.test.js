@@ -1,11 +1,18 @@
 /* global describe, it, expect */
 
-var pkg = require('..');
+var lrdd = require('..');
 
 describe('connect-lrdd', function() {
   
-  it('should export object', function() {
-    expect(pkg).to.be.an('object');
+  it('should export constructors', function() {
+    expect(lrdd.Descriptor).to.be.a('function');
+    expect(lrdd.Link).to.be.a('function');
+  });
+  
+  it('should export middleware', function() {
+    expect(lrdd.descriptor).to.be.a('function');
+    expect(lrdd.lrdd).to.be.a('function');
+    expect(lrdd.descriptor).to.equal(lrdd.lrdd);
   });
   
 });

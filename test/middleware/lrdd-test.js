@@ -375,7 +375,7 @@ vows.describe('lrdd').addBatch({
         
         var req = new MockRequest();
         req.headers = {};
-        req.headers['content-type'] = 'application/json'
+        req.headers['accept'] = 'application/json'
         req.query = {};
         req.query['uri'] = 'http://blog.example.com/article/id/314';
         
@@ -418,7 +418,7 @@ vows.describe('lrdd').addBatch({
         
         var req = new MockRequest();
         req.headers = {};
-        req.headers['content-type'] = 'application/xrd+xml'
+        req.headers['accept'] = 'application/xrd+xml'
         req.query = {};
         req.query['uri'] = 'http://blog.example.com/article/id/314';
         

@@ -30,17 +30,17 @@
   ],
   "main": "./lib",
   "dependencies": {
+    "multihash": "0.1.x"
   },
   "devDependencies": {
     "mocha": "1.x.x",
     "chai": "1.x.x",
-    "chai-connect-middleware": "0.3.x",
-    "vows": "0.6.x"
+    "chai-connect-middleware": "0.3.x"
   },
   "engines": {
     "node": ">= 0.4.0"
   },
   "scripts": {
-    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
+    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js"
   }
 }

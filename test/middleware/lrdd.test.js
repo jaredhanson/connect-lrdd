@@ -1,4 +1,5 @@
 /* global describe, it, before, expect */
+/* jshint multistr: true */
 
 var chai = require('chai')
   , lrdd = require('../../lib/middleware/lrdd')
@@ -18,7 +19,7 @@ describe('middleware/lrdd', function() {
     before(function(done) {
       chai.connect.use(lrdd(function() {
           var desc = new Descriptor();
-          desc.setExpires(new Date("Wed, 09 Aug 1995 00:00:00 GMT"));
+          desc.setExpires(new Date('Wed, 09 Aug 1995 00:00:00 GMT'));
           desc.setSubject('http://example.com/gpburdell');
           desc.addAlias('http://people.example.com/gpburdell');
           desc.addAlias('acct:gpburdell@example.com');
@@ -76,7 +77,7 @@ describe('middleware/lrdd', function() {
     before(function(done) {
       chai.connect.use(lrdd(function() {
           var desc = new Descriptor();
-          desc.setExpires(new Date("Wed, 09 Aug 1995 00:00:00 GMT"));
+          desc.setExpires(new Date('Wed, 09 Aug 1995 00:00:00 GMT'));
           desc.setSubject('http://example.com/gpburdell');
           desc.addAlias('http://people.example.com/gpburdell');
           desc.addAlias('acct:gpburdell@example.com');
@@ -133,7 +134,7 @@ describe('middleware/lrdd', function() {
         .req(function(req) {
           request = req;
           req.headers = {};
-          req.headers.accept = 'application/json'
+          req.headers.accept = 'application/json';
           req.query = {};
           req.query.uri = 'http://blog.example.com/article/id/314';
         })
@@ -161,7 +162,7 @@ describe('middleware/lrdd', function() {
         .req(function(req) {
           request = req;
           req.headers = {};
-          req.headers.accept = 'application/xrd+xml'
+          req.headers.accept = 'application/xrd+xml';
           req.query = {};
           req.query.uri = 'http://blog.example.com/article/id/314';
         })
@@ -308,7 +309,7 @@ describe('middleware/lrdd', function() {
     });
     
     it('should error', function() {
-      expect(error).to.be.an.instanceOf(Error)
+      expect(error).to.be.an.instanceOf(Error);
       expect(error.message).to.equal('something went wrong');
     });
   });
@@ -333,7 +334,7 @@ describe('middleware/lrdd', function() {
     });
     
     it('should error', function() {
-      expect(error).to.be.an.instanceOf(Error)
+      expect(error).to.be.an.instanceOf(Error);
       expect(error.message).to.equal('something went horribly wrong');
     });
   });
@@ -358,7 +359,7 @@ describe('middleware/lrdd', function() {
     });
     
     it('should error', function() {
-      expect(error).to.be.an.instanceOf(Error)
+      expect(error).to.be.an.instanceOf(Error);
       expect(error.message).to.equal('something went horribly wrong');
     });
   });

@@ -52,7 +52,7 @@ describe('Descriptor', function() {
   
   describe('#setExpires', function() {
     var desc = new Descriptor();
-    desc.setExpires(new Date("Wed, 09 Aug 1995 00:00:00 GMT"));
+    desc.setExpires(new Date('Wed, 09 Aug 1995 00:00:00 GMT'));
     
     it('should set expires property', function() {
       expect(desc.expires).to.be.an.instanceOf(Date);
@@ -105,7 +105,7 @@ describe('Descriptor', function() {
   
   describe('#addLink with link', function() {
     var desc = new Descriptor();
-    var link = new Link('http://services.example.com/auth')
+    var link = new Link('http://services.example.com/auth');
     desc.addLink(link);
     
     it('should add link', function() {

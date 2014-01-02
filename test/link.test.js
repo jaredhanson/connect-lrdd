@@ -81,7 +81,7 @@ describe('Link', function() {
     });
     
     it('should not set type property', function() {
-      expect(link.type).to.equal('image/jpeg')
+      expect(link.type).to.equal('image/jpeg');
     });
     
     it('should not add any titles', function() {
@@ -111,7 +111,7 @@ describe('Link', function() {
     });
     
     it('should not set type property', function() {
-      expect(link.type).to.equal('application/xrd+xml')
+      expect(link.type).to.equal('application/xrd+xml');
     });
     
     it('should not add any titles', function() {

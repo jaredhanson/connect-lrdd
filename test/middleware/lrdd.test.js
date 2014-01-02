@@ -313,4 +313,54 @@ describe('middleware/lrdd', function() {
     });
   });
   
+  describe('that throws an exception when responding synchronously', function() {
+    var request, error;
+    
+    before(function(done) {
+      chai.connect.use(lrdd(function(uri) {
+          throw new Error('something went horribly wrong');
+        }))
+        .req(function(req) {
+          request = req;
+          req.params = {};
+          req.params.uri = 'http://blog.example.com/article/id/314';
+        })
+        .next(function(err) {
+          error = err;
+          done();
+        })
+        .dispatch();
+    });
+    
+    it('should error', function() {
+      expect(error).to.be.an.instanceOf(Error)
+      expect(error.message).to.equal('something went horribly wrong');
+    });
+  });
+  
+  describe('that throws an exception when responding asynchronously', function() {
+    var request, error;
+    
+    before(function(done) {
+      chai.connect.use(lrdd(function(uri, done) {
+          throw new Error('something went horribly wrong');
+        }))
+        .req(function(req) {
+          request = req;
+          req.params = {};
+          req.params.uri = 'http://blog.example.com/article/id/314';
+        })
+        .next(function(err) {
+          error = err;
+          done();
+        })
+        .dispatch();
+    });
+    
+    it('should error', function() {
+      expect(error).to.be.an.instanceOf(Error)
+      expect(error.message).to.equal('something went horribly wrong');
+    });
+  });
+  
 });

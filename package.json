@@ -1,6 +1,6 @@
 {
   "name": "connect-lrdd",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Link-based Resource Descriptor Document (LRDD) middleware for Connect.",
   "keywords": [
     "connect",

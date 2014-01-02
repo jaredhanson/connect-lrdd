@@ -123,6 +123,62 @@ describe('middleware/lrdd', function() {
     });
   });
   
+  describe('that responds with JRD due to content negotiation', function() {
+    var request, response;
+    
+    before(function(done) {
+      chai.connect.use(lrdd(function(uri) {
+          return new Descriptor(uri);
+        }))
+        .req(function(req) {
+          request = req;
+          req.headers = {};
+          req.headers.accept = 'application/json'
+          req.query = {};
+          req.query.uri = 'http://blog.example.com/article/id/314';
+        })
+        .end(function(res) {
+          response = res;
+          done();
+        })
+        .dispatch();
+    });
+    
+    it('should respond', function() {
+      expect(response.statusCode).to.equal(200);
+      expect(response.getHeader('Content-Type')).to.equal('application/json');
+      expect(response.body).to.equal('{"subject":"http://blog.example.com/article/id/314"}');
+    });
+  });
+  
+  describe('that responds with XRD due to content negotiation', function() {
+    var request, response;
+    
+    before(function(done) {
+      chai.connect.use(lrdd(function(uri) {
+          return new Descriptor(uri);
+        }, { format: 'json' }))
+        .req(function(req) {
+          request = req;
+          req.headers = {};
+          req.headers.accept = 'application/xrd+xml'
+          req.query = {};
+          req.query.uri = 'http://blog.example.com/article/id/314';
+        })
+        .end(function(res) {
+          response = res;
+          done();
+        })
+        .dispatch();
+    });
+    
+    it('should respond', function() {
+      expect(response.statusCode).to.equal(200);
+      expect(response.getHeader('Content-Type')).to.equal('application/xrd+xml');
+      expect(response.body).to.equal('<?xml version="1.0" encoding="UTF-8"?><XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Subject>http://blog.example.com/article/id/314</Subject></XRD>');
+    });
+  });
+  
   describe('that accepts a URI from params and responds synchronously', function() {
     var request, response;
     
